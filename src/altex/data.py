@@ -1,6 +1,7 @@
 """Data utilities for Altex charts."""
 
-import numpy as np
+from pathlib import Path
+
 import pandas as pd
 
 try:
@@ -8,33 +9,8 @@ try:
 except ImportError:
     from streamlit import experimental_memo as cache_data  # streamlit >= 0.89
 
-
-def _url_to_dataframe(url: str) -> pd.DataFrame:
-    """Collects a CSV/JSON file from a URL and load it into a dataframe.
-
-    Args:
-        url: URL of the CSV/JSON file
-
-    Returns:
-        Resulting dataframe
-    """
-    if url.endswith(".csv"):
-        return pd.read_csv(url)
-    if url.endswith(".json"):
-        return pd.read_json(url)
-    raise Exception("URL must end with .json or .csv")
-
-
-# Sample data URLs
-WEATHER_DATA_URL = (
-    "https://raw.githubusercontent.com/tvst/plost/master/data/seattle-weather.csv"
-)
-STOCKS_DATA_URL = (
-    "https://raw.githubusercontent.com/vega/vega/main/docs/data/stocks.csv"
-)
-BARLEY_DATA_URL = (
-    "https://raw.githubusercontent.com/vega/vega/main/docs/data/barley.json"
-)
+# Get the directory where this file is located
+DATA_DIR = Path(__file__).parent / "data"
 
 
 @cache_data
@@ -44,7 +20,7 @@ def get_weather_data() -> pd.DataFrame:
     Returns:
         DataFrame with weather data including temperature, wind, etc.
     """
-    return _url_to_dataframe(WEATHER_DATA_URL)
+    return pd.read_csv(DATA_DIR / "weather.csv")
 
 
 @cache_data
@@ -54,7 +30,7 @@ def get_stocks_data() -> pd.DataFrame:
     Returns:
         DataFrame with stock prices for different symbols over time.
     """
-    return _url_to_dataframe(STOCKS_DATA_URL).assign(
+    return pd.read_csv(DATA_DIR / "stocks.csv").assign(
         date=lambda df: pd.to_datetime(df.date)
     )
 
@@ -66,7 +42,7 @@ def get_barley_data() -> pd.DataFrame:
     Returns:
         DataFrame with barley yield data by variety and site.
     """
-    return _url_to_dataframe(BARLEY_DATA_URL)
+    return pd.read_json(DATA_DIR / "barley.json")
 
 
 def get_random_data() -> pd.DataFrame:
@@ -75,7 +51,14 @@ def get_random_data() -> pd.DataFrame:
     Returns:
         DataFrame with random numerical data.
     """
-    return pd.DataFrame(
-        np.random.randn(20, 7),
-        columns=list("abcdefg"),
-    ).reset_index()
+    # Use pandas instead of numpy for random data
+    import random
+
+    random.seed(42)  # For reproducible "random" data
+    data = {}
+
+    for col in "abcdefg":
+        # Generate 20 random values between -2 and 2
+        data[col] = [random.uniform(-2, 2) for _ in range(20)]
+
+    return pd.DataFrame(data).reset_index()

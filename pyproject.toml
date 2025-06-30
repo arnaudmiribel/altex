@@ -12,13 +12,14 @@ keywords = ["python", "altair", "charts", "visualization", "streamlit"]
 dependencies = [
   "altair >= 4.0.0",
   "pandas >= 1.0.0",
-  "numpy >= 1.19.0",
   "streamlit >= 1.18.0",
 ]
 
-[project.packages]
-include = ["altex"]
-from = "src"
+[tool.hatchling.build.targets.wheel]
+packages = ["src/altex"]
+
+[tool.hatchling.build.targets.wheel.force-include]
+"src/altex/data" = "altex/data"
 
 [build-system]
 requires = ["hatchling"]

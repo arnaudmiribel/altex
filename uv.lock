@@ -28,7 +28,6 @@ version = "0.1.0"
 source = { editable = "." }
 dependencies = [
     { name = "altair" },
-    { name = "numpy" },
     { name = "pandas" },
     { name = "streamlit" },
 ]
@@ -42,7 +41,6 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "altair", specifier = ">=4.0.0" },
-    { name = "numpy", specifier = ">=1.19.0" },
     { name = "pandas", specifier = ">=1.0.0" },
     { name = "streamlit", specifier = ">=1.18.0" },
 ]
