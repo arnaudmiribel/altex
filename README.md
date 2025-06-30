@@ -36,10 +36,11 @@ altex.scatter_chart(data=data, x='x', y='y', opacity=0.7)
 
 ## 🎨 Demo App
 
-Try the demo app:
+Try the interactive demo:
 
 ```bash
-# Clone or download this repository
+# Clone this repository
+git clone https://github.com/arnaudmiribel/altex.git
 cd altex
 uv sync
 uv run streamlit run streamlit_app.py
