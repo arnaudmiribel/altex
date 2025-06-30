@@ -4,7 +4,7 @@ If you're lazy and/or familiar with Altair, this is probably a good fit!
 Inspired by plost and plotly-express.
 """
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 __author__ = "Arnaud Miribel"
 
 # Import chart functions
